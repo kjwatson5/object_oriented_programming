@@ -20,11 +20,35 @@ class roiCalculator():
         self.price_of_property = price_of_property
 
     def cash_flow(self):
-        income = input('What is the total income from this property? ')
-        expenses = input('What is the total cost of expenses for this property? ')
-        result = int(income) - int(expenses)
-        cash_on_cash = input('What is the total cost of investment? ')
-        raw_num = ((result * 12) / int(cash_on_cash)) * 100
+        total_expenses = {}
+        income = input('What is the total income from this property per month? ')
+        while True:
+            prompt = input('Do you want to add a monthly expense? Y = yes N = No: ')
+
+            if prompt.title() == 'Y':
+                expense = input('What is the expense you would like to add? ')
+                expense_amount = input('How much is this expense per month?')
+                total_expenses[expense] = int(expense_amount)
+            elif prompt.title() == 'N':
+                break
+
+        sum_of_expenses = sum(total_expenses.values())
+        cash_on_cash = {}
+        while True:
+            cash_prompt = input('Do you want to add an investment expense? Y = Yes N = No: ')
+
+            if cash_prompt.title() == 'Y':
+                cash_expense = input('What is the expense you would like to add? ')
+                cash_amount = input('How much is this expense? ')
+                cash_on_cash[cash_expense] = int(cash_amount)
+            elif cash_prompt.title() == 'N':
+                break
+
+        sum_of_cash_expenses = sum(cash_on_cash.values())
+
+        result = int(income) - sum_of_expenses
+
+        raw_num = ((result * 12) / sum_of_cash_expenses * 100)
         finished_num = f"{raw_num}%"
         print(finished_num)
         return finished_num
